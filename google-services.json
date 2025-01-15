@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "534031217579",
+    "project_id": "first-project-firebase-cd5be",
+    "storage_bucket": "first-project-firebase-cd5be.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:534031217579:android:71662bae14e71602cdd8ee",
+        "android_client_info": {
+          "package_name": "com.app.login"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "534031217579-o4th91d6r24a0nttsf8i99ha8da3bg3d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZYpxJL2VXtED8wdY-WLLYGEPaHYl1HAw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "534031217579-o4th91d6r24a0nttsf8i99ha8da3bg3d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
