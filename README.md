@@ -18,3 +18,10 @@ It supports user login and sign-up functionalities using various methods:
 
 The system ensures secure handling of user credentials and provides a seamless
 user experience across different authentication methods.
+
+## package list
+
+```bash
+    npm install firebase @react-native-google-signin/google-signin
+    npx pod-install
+```
