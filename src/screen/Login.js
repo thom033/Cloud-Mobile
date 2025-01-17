@@ -1,4 +1,5 @@
 import Button from '../components/Button';
+import { useState, useEffect } from 'react';
 import { StyleSheet, Text, TextInput, View, TouchableOpacity, StatusBar } from 'react-native';
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
