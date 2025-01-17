@@ -1,14 +1,9 @@
 import React, { useEffect } from 'react';
 import { TouchableOpacity, Image, Text, StyleSheet } from 'react-native';
-// import { GoogleSignin } from '@react-native-google-signin/google-signin';
-// import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
-import { getAuth, signInWithCredential, GoogleAuthProvider } from 'firebase/auth';
-import app from '../firebase-config';
 
 
 export default function Button({ color, text, logo }) {
     const styles = buttonStyle(color);
-    const auth = getAuth(app);
 
     return (
         <TouchableOpacity style={styles.button} >
