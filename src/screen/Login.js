@@ -1,12 +1,15 @@
 import Button from '../components/Button';
 import { StyleSheet, Text, TextInput, View, TouchableOpacity, StatusBar } from 'react-native';
 export default function LoginScreen() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
     
     return (
         <View style={styles.container}>
         <Text style={styles.title}>Please Sign In</Text>
         
         <TextInput
+          name="email"
           style={styles.input}
           placeholder="Email"
           keyboardType="email-address"
@@ -14,6 +17,7 @@ export default function LoginScreen() {
           autoCorrect={false}
         />
         <TextInput
+          name="password"
           style={styles.input}
           placeholder="Password"
           secureTextEntry
