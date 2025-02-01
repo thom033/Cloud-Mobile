@@ -1,4 +1,4 @@
-import { login } from '../services/authService';
+import { login, signInWithGoogle } from '../services/authService';
 import Button from '../components/Button';
 import { useState } from 'react';
 import { StyleSheet, Text, TextInput, View, TouchableOpacity, StatusBar } from 'react-native';
@@ -9,20 +9,16 @@ export default function LoginScreen({ navigation }) {
 
   const handlelogin = async () => {
     try {
-      // Nettoyage des entrées
       const trimmedEmail = email.trim();
       const trimmedPassword = password.trim();
-      console.log(trimmedEmail, trimmedPassword);
 
-      // Validation de base
       if (!trimmedEmail || !trimmedPassword) {
         alert('Email and password cannot be empty.');
         return;
       }
 
-      // Appel à la fonction de login
       await login(trimmedEmail, trimmedPassword);
-      navigation.navigate('ImportFile'); // Rediriger après le succès
+      navigation.navigate('ImportFile');
     } catch (error) {
       console.error(error.message);
       if (error.code === 'auth/invalid-email') {
@@ -38,7 +34,16 @@ export default function LoginScreen({ navigation }) {
       }
     }
   };
-  
+
+  const handleGoogleLogin = async () => {
+    try {
+      await signInWithGoogle();
+      navigation.navigate('ImportFile');
+    } catch (error) {
+      console.error(error.message);
+      alert('An error occurred with Google Sign-In. Please try again later.');
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -66,6 +71,10 @@ export default function LoginScreen({ navigation }) {
         <Text style={styles.submitButtonText}>Log in</Text>
       </TouchableOpacity>
 
+      <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+        <Text style={styles.signUpText}>Sign Up</Text>
+      </TouchableOpacity>
+
       <Text style={styles.orText}>Or Log With:</Text>
 
       <View style={styles.socialButtonsContainer}>
@@ -74,6 +83,7 @@ export default function LoginScreen({ navigation }) {
           text="Google"
           logo={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Logo_2013_Google.png/600px-Logo_2013_Google.png' }}
           style={styles.socialButton}
+          onPress={handleGoogleLogin}
         />
         <Button
           color={'#333'}
@@ -136,6 +146,11 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  signUpText: {
+    fontSize: 16,
+    color: '#4CAF50',
+    marginBottom: 20,
   },
   orText: {
     fontSize: 16,
