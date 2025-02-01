@@ -2,11 +2,21 @@ import { auth } from '../config/firebase-config';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 
 // Inscription
-export const register = async (email, password) => {
+export const signUp = (email, password) => {
+  return createUserWithEmailAndPassword(auth, email, password);
+};
+
+export const signInWithGoogle = async () => {
   try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    return userCredential.user;
+    // Get the user's ID token
+    await GoogleSignin.hasPlayServices();
+    const userInfo = await GoogleSignin.signIn();
+    const googleCredential = GoogleAuthProvider.credential(userInfo.idToken);
+
+    // Sign in with the credential from the Google user
+    return signInWithCredential(auth, googleCredential);
   } catch (error) {
+    console.error(error);
     throw error;
   }
 };
