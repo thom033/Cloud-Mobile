@@ -1,8 +1,9 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import LoginScreen from './src/screen/Login'; // Votre écran de connexion
-import ImportFileScreen from './src/screen/ImportFile'; // L'écran que vous voulez afficher après une connexion réussie
+import LoginScreen from './src/screen/Login';
+import SignUpScreen from './src/screen/SignUp';
+import ImportFileScreen from './src/screen/ImportFile';
 
 const Stack = createStackNavigator();
 
@@ -11,6 +12,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login">
         <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="SignUp" component={SignUpScreen} />
         <Stack.Screen name="ImportFile" component={ImportFileScreen} />
       </Stack.Navigator>
     </NavigationContainer>
