@@ -5,9 +5,6 @@ WORKDIR /app
 
 # Copier les fichiers du projet
 COPY package.json package-lock.json ./
-RUN npm install -g expo-cli @expo/ngrok
-
-# Installer les dépendances
 RUN npm install
 
 # Copier tout le projet
