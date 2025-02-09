@@ -102,11 +102,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+    paddingBottom: 80, // Ajouter un padding en bas pour laisser de l'espace pour le footer
   },
   header: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 16,
     textAlign: 'center',
   },
   picker: {

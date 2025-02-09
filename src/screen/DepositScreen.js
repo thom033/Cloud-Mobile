@@ -1,25 +1,35 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import Footer from '../components/Footer';
-import { db, auth } from '../config/firebase-config'; // Assurez-vous que auth est importé correctement
+import { db } from '../config/firebase-config';
 import { collection, addDoc, Timestamp } from 'firebase/firestore';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const DepositScreen = () => {
   const [amount, setAmount] = useState('');
 
   const handleDeposit = async () => {
+    if (!amount || parseFloat(amount) <= 0) {
+      Alert.alert('Erreur', 'Le montant doit être supérieur à 0.');
+      return;
+    }
+
     try {
-      const user = auth.currentUser;
-      if (!user) {
+      // Récupérer l'utilisateur connecté depuis AsyncStorage
+      const authConnected = await AsyncStorage.getItem('auth_connected');
+      if (!authConnected) {
         alert('Vous devez être connecté pour effectuer un dépôt.');
         return;
       }
+
+      const user = JSON.parse(authConnected);
 
       const depositData = {
         adminValidation: false,
         dateTransaction: Timestamp.now(),
         chronology: {
           calendarType: 'iso8601',
+          id: 'ISO',
           dayOfMonth: new Date().getDate(),
           dayOfWeek: new Date().toLocaleString('en-US', { weekday: 'long' }).toUpperCase(),
           dayOfYear: Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24),
@@ -39,17 +49,17 @@ const DepositScreen = () => {
         refTransaction: null,
         retrait: null,
         utilisateur: {
-          iduser: user.uid,
+          iduser: user.idUser,
           isSynced: true,
           lastUpdate: Timestamp.now(),
-          mail: user.email,
-          password: user.password, // Assurez-vous de ne pas stocker de mot de passe en clair
+          mail: user.mail,
           tentative: 0,
+          password : user.password,
           validate: true,
         },
       };
 
-      await addDoc(collection(db, 'TransactionFond'), depositData);
+      await addDoc(collection(db, 'TransactionFonds'), depositData);
       console.log(`Déposer ${amount} USD`);
       alert('Dépôt effectué avec succès.');
       setAmount('');
@@ -81,6 +91,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 16,
+    paddingBottom: 80, // Ajouter un padding en bas pour laisser de l'espace pour le footer
   },
   header: {
     fontSize: 24,

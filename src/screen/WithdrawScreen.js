@@ -1,26 +1,35 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import Footer from '../components/Footer';
 import { db } from '../config/firebase-config';
 import { collection, addDoc, Timestamp } from 'firebase/firestore';
-import { auth } from '../config/firebase-config';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const WithdrawScreen = () => {
   const [amount, setAmount] = useState('');
 
   const handleWithdraw = async () => {
+    if (!amount || parseFloat(amount) <= 0) {
+      Alert.alert('Erreur', 'Le montant doit être supérieur à 0.');
+      return;
+    }
+
     try {
-      const user = auth.currentUser;
-      if (!user) {
+      // Récupérer l'utilisateur connecté depuis AsyncStorage
+      const authConnected = await AsyncStorage.getItem('auth_connected');
+      if (!authConnected) {
         alert('Vous devez être connecté pour effectuer un retrait.');
         return;
       }
+
+      const user = JSON.parse(authConnected);
 
       const withdrawData = {
         adminValidation: false,
         dateTransaction: Timestamp.now(),
         chronology: {
           calendarType: 'iso8601',
+          id: 'ISO',
           dayOfMonth: new Date().getDate(),
           dayOfWeek: new Date().toLocaleString('en-US', { weekday: 'long' }).toUpperCase(),
           dayOfYear: Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24),
@@ -40,17 +49,17 @@ const WithdrawScreen = () => {
         refTransaction: null,
         retrait: amount,
         utilisateur: {
-          iduser: user.uid,
+          iduser: user.idUser,
           isSynced: true,
           lastUpdate: Timestamp.now(),
-          mail: user.email,
-          password: user.password, // Assurez-vous de ne pas stocker de mot de passe en clair
+          mail: user.mail,
+          password: user.password || '', // Utiliser une valeur par défaut si undefined
           tentative: 0,
           validate: true,
         },
       };
 
-      await addDoc(collection(db, 'TransactionFond'), withdrawData);
+      await addDoc(collection(db, 'TransactionFonds'), withdrawData);
       console.log(`Retirer ${amount} USD`);
       alert('Retrait effectué avec succès.');
       setAmount('');
