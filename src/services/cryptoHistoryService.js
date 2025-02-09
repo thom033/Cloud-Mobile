@@ -14,8 +14,7 @@ export const getCryptoHistory = async (cryptoId) => {
     const cryptoHistoryCollectionRef = collection(db, 'CoursHistoriques');
     
     const now = new Date();
-    const minutesAgo = 0.2; // Vous pouvez changer cette valeur pour obtenir les données d'un autre intervalle de temps
-    const tenMinutesAgo = new Date(now.getTime() - minutesAgo * 60 * 1000); // minutesAgo avant maintenant
+    const tenMinutesAgo = new Date(now.getTime()- 10 * 60 * 1000); // 10 minutes avant maintenant
 
     const yesterday = new Date(now);
     yesterday.setDate(now.getDate() - 1); // On soustrait 1 jour pour obtenir hier
@@ -74,8 +73,7 @@ export const listenToCryptoHistoryUpdates = (cryptoId, setHistoryData) => {
 
     // Calcul des 10 dernières minutes
     const now = new Date();
-    const minutesAgo = 0.2; // Vous pouvez changer cette valeur pour obtenir les données d'un autre intervalle de temps
-    const tenMinutesAgo = new Date(now.getTime() - minutesAgo * 60 * 1000); // minutesAgo avant maintenant
+    const tenMinutesAgo = new Date(now.getTime() - 10 * 60 * 1000); // 10 minutes avant maintenant
 
     const yesterday = new Date(now);
     yesterday.setDate(now.getDate() - 1); // On soustrait 1 jour pour obtenir hier
