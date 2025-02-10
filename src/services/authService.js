@@ -39,7 +39,8 @@ export const login = async (email, password) => {
       isSynced: userData.isSynced,
       validate: userData.validate,
       lastUpdate: userData.lastUpdate,
-      img: userData.img || null, // Ajout d'une valeur par défaut si l'image est absente
+      img: userData.img || null,
+      password: userData.password // Ajout d'une valeur par défaut si l'image est absente
     };
 
     await AsyncStorage.setItem('auth_connected', JSON.stringify(auth_connected));

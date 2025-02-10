@@ -24,7 +24,7 @@ export const getCryptoHistory = async (cryptoId) => {
     const q = query(
       cryptoHistoryCollectionRef,
       where("idCrypto", "==", cryptoId),
-      where("dateCours", ">=", yesterday),
+      where("dateCours", ">=", now),
       orderBy("dateCours", "asc")
     );
 
@@ -83,7 +83,7 @@ export const listenToCryptoHistoryUpdates = (cryptoId, setHistoryData) => {
     const q = query(
       cryptoHistoryCollectionRef,
       where("idCrypto", "==", cryptoId),
-      where("dateCours", ">=", yesterday),
+      where("dateCours", ">=", now),
       orderBy("dateCours", "asc")
     );
 

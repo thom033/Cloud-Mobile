@@ -53,7 +53,7 @@ const WithdrawScreen = () => {
           isSynced: true,
           lastUpdate: Timestamp.now(),
           mail: user.mail,
-          password: user.password || '', // Utiliser une valeur par défaut si undefined
+          password: user.password, // Utiliser une valeur par défaut si undefined
           tentative: 0,
           validate: true,
         },
